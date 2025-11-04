@@ -1,0 +1,68 @@
+.test-payment-instructions {
+  margin-top: 16px;
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  padding: 20px;
+  border-radius: 12px;
+  border: 2px solid #f39c12;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.test-payment-instructions::before {
+  content: "🧪";
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  background: #f39c12;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+.test-payment-instructions strong {
+  display: block;
+  color: #d68910;
+  font-size: 18px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.test-payment-instructions p {
+  margin: 8px 0 12px 0;
+  color: #6c5ce7;
+  line-height: 1.5;
+}
+
+.test-payment-instructions ul {
+  margin: 0 0 12px 0;
+  padding-left: 20px;
+}
+
+.test-payment-instructions li {
+  margin-bottom: 6px;
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.test-payment-instructions code {
+  background: #ffeaa7;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  color: #d63031;
+  font-weight: bold;
+}
+
+.test-payment-instructions .note {
+  margin: 0;
+  font-size: 13px;
+  color: #636e72;
+  font-style: italic;
+  border-top: 1px solid #f39c12;
+  padding-top: 8px;
+}
