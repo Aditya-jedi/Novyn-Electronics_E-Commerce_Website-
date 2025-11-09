@@ -14,7 +14,7 @@ const seedRoutes = require('./routes/seedRoutes');
 
 const app = express();
 
-
+// Enable CORS
 const cors = require('cors');
 app.use(cors());
 
@@ -51,4 +51,9 @@ const connectDB = async () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error
+    console.error("❌ Connection error:", error.message);
+    process.exit(1);
+  }
+};
+
+connectDB();
