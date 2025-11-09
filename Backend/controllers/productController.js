@@ -1,12 +1,18 @@
 const Product = require('../models/product');
 
-// Get all products (populate category name) with pagination
+// Get all products (populate category name) with pagination and category filtering
 const getAllProducts = async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
   const skip = (page - 1) * limit;
+  const category = req.query.category;
 
   let query = Product.find().populate('category', 'name');
+
+  // Apply category filter if provided
+  if (category && category !== 'all') {
+    query = query.where('category').equals(category);
+  }
 
   // If limit is 0 or negative, return all products without pagination
   if (limit <= 0) {
@@ -17,7 +23,12 @@ const getAllProducts = async (req, res) => {
 
   const products = await query;
 
-  const total = await Product.countDocuments();
+  // Count documents with the same filter
+  let countQuery = Product.find();
+  if (category && category !== 'all') {
+    countQuery = countQuery.where('category').equals(category);
+  }
+  const total = await countQuery.countDocuments();
   const totalPages = limit > 0 ? Math.ceil(total / limit) : 1;
 
   res.json({

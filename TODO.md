@@ -1,0 +1,2 @@
+- [x] Update Backend/controllers/productController.js to add category filtering logic in getAllProducts
+- [x] Update Frontend/src/pages/Products.jsx to include category in fetch URL, reset currentPage to 1 on category change, update useEffect dependencies

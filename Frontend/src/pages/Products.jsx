@@ -26,8 +26,9 @@ function Products() {
 
         // If searching, fetch all products; otherwise use pagination
         const limit = searchQuery.trim() ? 0 : 10; // 0 means no limit
+        const categoryParam = category !== "all" ? `&category=${category}` : "";
         const [pRes, cRes] = await Promise.all([
-          fetch(`/api/products?page=${currentPage}&limit=${limit}`),
+          fetch(`/api/products?page=${currentPage}&limit=${limit}${categoryParam}`),
           fetch("/api/categories"),
         ]);
 
@@ -56,7 +57,7 @@ function Products() {
     return () => {
       cancelled = true;
     };
-  }, [currentPage, searchQuery]);
+  }, [currentPage, searchQuery, category]);
 
   const handleSeed = async () => {
     try {
@@ -138,7 +139,10 @@ function Products() {
         <FilterBar
           categories={categories}
           selectedCategory={category}
-          onCategoryChange={setCategory}
+          onCategoryChange={(newCategory) => {
+            setCategory(newCategory);
+            setCurrentPage(1); // Reset to page 1 when category changes
+          }}
         />
         <SortMenu sortOption={sortOption} onSortChange={setSortOption} />
       </div>
