@@ -34,9 +34,10 @@ app.use('/api/seed', seedRoutes);
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Serve index.html for all other routes (frontend routing)
-app.get('*', (req, res) => {
+app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
+
 
 // Connect to MongoDB and start server
 const PORT = process.env.PORT || 5000;
