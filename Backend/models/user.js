@@ -57,6 +57,6 @@ const userSchema = new mongoose.Schema(
 //   return bcrypt.compare(password, this.password);
 // };
 // Create and export the User model
-const User = mongoose.model("User", userSchema);
+const user = mongoose.model("User", userSchema);
 
 module.exports = user;
