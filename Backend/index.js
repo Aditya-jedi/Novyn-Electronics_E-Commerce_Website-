@@ -14,12 +14,10 @@ const seedRoutes = require('./routes/seedRoutes');
 const app = express();
 
 // ---------------------- CORS ----------------------
-const corsOptions = {
-  origin: 'https://novyn.netlify.app', // Netlify frontend URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-  credentials: true,
-};
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: ["https://novyn.netlify.app/",http://localhost:5173], //
+  credentials: true
+}));
 
 // ---------------- Middleware -------------------
 app.use(express.json());
