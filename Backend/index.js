@@ -17,7 +17,7 @@ const app = express();
 const cors = require('cors');
 
 const corsOptions = {
-  origin: ['https://novyn.netlify.app/'],
+  origin: ['https://novyn.netlify.app'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
 };
