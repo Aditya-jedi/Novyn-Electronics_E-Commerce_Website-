@@ -15,14 +15,14 @@ exports.registerUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await user.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const userId = crypto.randomBytes(8).toString('hex');
-    const user = await User.create({ name, email, password: hashedPassword, userId });
+    const user = await user.create({ name, email, password: hashedPassword, userId });
 
     const token = generateToken(user._id);
 
@@ -40,7 +40,7 @@ exports.registerUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await user.findOne({ email });
 
     if (!user) return res.status(400).json({ message: "Invalid credentials" });
 
@@ -61,7 +61,7 @@ exports.loginUser = async (req, res) => {
 // Get all users (admin only)
 exports.getAllUsers = async (req, res) => {
   try {
-    const users = await User.find();
+    const users = await user.find();
     res.json(users);
   } catch (error) {
     res.status(500).json({ error: error.message });
