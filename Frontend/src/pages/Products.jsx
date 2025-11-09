@@ -29,14 +29,14 @@ function Products() {
         const limit = searchQuery.trim() ? 0 : 10; // 0 means no limit
         const categoryParam = category !== "all" ? `&category=${category}` : "";
         const [pRes, cRes] = await Promise.all([
-          fetch(`/api/products?page=${currentPage}&limit=${limit}${categoryParam}`),
-          fetch("/api/categories"),
+          fetch(`/products?page=${currentPage}&limit=${limit}${categoryParam}`),
+          fetch("/categories"),
         ]);
 
         if (!pRes.ok) throw new Error("Failed to fetch products");
 
-        const data = await pRes.json();
-        const cats = cRes.ok ? await cRes.json() : [];
+        const data = pRes.data;
+        const cats = cRes.data || [];
 
         if (!cancelled) {
           setProducts(Array.isArray(data.products) ? data.products : []);
@@ -62,7 +62,7 @@ function Products() {
 
   const handleSeed = async () => {
     try {
-      const res = await fetch("/api/seed");
+      const res = await api.get("/seed");
       try {
         const json = await res.json();
         console.log("seed response", json);
@@ -70,11 +70,12 @@ function Products() {
         console.log("seed triggered");
       }
       // re-fetch products
-      const p = await fetch("/api/products");
-      if (p.ok) {
-        const list = await p.json();
-        setProducts(Array.isArray(list) ? list : []);
+      const p = await api.get("/products");
+      if (p.status === 200) {
+      const list = p.data.products || p.data || [];
+      setProducts(Array.isArray(list) ? list : []);
       }
+
     } catch (err) {
       console.error("Seed failed", err);
     }
