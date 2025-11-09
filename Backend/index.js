@@ -37,13 +37,7 @@ app.use('/categories', categoryRoutes);
 app.use('/payments', paymentRoutes);
 app.use('/seed', seedRoutes);
 
-// ---------------- Serve Frontend ----------------
-app.use(express.static(path.join(__dirname, 'dist')));
 
-// Frontend routing (all non-API routes serve React)
-app.get(/^\/(?!users|products|orders|categories|payments|seed).*/, (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
 
 // ---------------- MongoDB & Start Server -------
 const PORT = process.env.PORT || 5000;
