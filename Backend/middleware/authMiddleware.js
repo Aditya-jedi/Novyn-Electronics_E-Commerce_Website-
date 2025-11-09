@@ -1,6 +1,6 @@
 // middleware/authMiddleware.js
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const user = require("../models/user");
 // Protect routes (check if user is logged in)
 const protect = async (req, res, next) => {
   let token = req.headers.authorization;
