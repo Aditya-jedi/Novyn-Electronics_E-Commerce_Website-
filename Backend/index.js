@@ -1,10 +1,10 @@
 require('dotenv').config();
-
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
+const cors = require('cors');
 
-// Routes
+// Import routes
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
@@ -14,15 +14,19 @@ const seedRoutes = require('./routes/seedRoutes');
 
 const app = express();
 
-// Enable CORS
-const cors = require('cors');
-app.use(cors());
+// ---------------------- CORS ----------------------
+const corsOptions = {
+  origin: 'https://novyn-electronics-e-commerce-website.onrender.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
-// Middleware to parse JSON bodies
+// ---------------- Middleware -------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// API routes
+// ---------------- API Routes --------------------
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
@@ -30,29 +34,28 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api/seed', seedRoutes);
 
-// Serve frontend static files
+// ---------------- Serve Frontend ----------------
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Serve index.html for all other routes (frontend routing)
+// Frontend routing (all non-API routes serve React)
 app.get(/^\/(?!api).*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-
-// Connect to MongoDB and start server
+// ---------------- MongoDB & Start Server -------
 const PORT = process.env.PORT || 5000;
-const mongo_URI = process.env.MONGO_URI;
+const MONGO_URI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
-    await mongoose.connect(mongo_URI);
-    console.log("✅ MongoDB connected");
+    await mongoose.connect(MONGO_URI);
+    console.log('✅ MongoDB connected');
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error("❌ Connection error:", error.message);
+    console.error('❌ Connection error:', error.message);
     process.exit(1);
   }
 };
