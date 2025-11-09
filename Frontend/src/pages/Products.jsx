@@ -1,3 +1,4 @@
+import api from "../api";
 import { useState, useEffect } from "react";
 import FilterBar from "../components/FilterBar";
 import SortMenu from "../components/SortMenu";
