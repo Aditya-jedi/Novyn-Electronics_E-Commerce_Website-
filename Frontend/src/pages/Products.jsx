@@ -29,8 +29,8 @@ function Products() {
 
         // ✅ Using api (axios instance) for all backend requests
         const [pRes, cRes] = await Promise.all([
-          fetch(`/products?page=${currentPage}&limit=${limit}${categoryParam}`),
-          fetch("/categories"),
+          api.get(`/products?page=${currentPage}&limit=${limit}${categoryParam}`),
+          api.get("/categories"),
         ]);
 
         if (!cancelled) {
