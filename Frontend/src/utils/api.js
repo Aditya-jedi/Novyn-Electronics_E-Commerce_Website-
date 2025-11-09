@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://novyn-electronics-e-commerce-website.onrender.com", 
+  baseURL: "/", 
   // Now you can call: /products, /users/login, etc.
 });
 
