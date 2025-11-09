@@ -15,11 +15,14 @@ const seedRoutes = require('./routes/seedRoutes');
 const app = express();
 
 // ---------------------- CORS ----------------------
+const cors = require('cors');
+
 const corsOptions = {
-  origin: 'https://novyn-electronics-e-commerce-website.onrender.com',
+  origin: ['https://novyn-electronics-e-commerce-website.onrender.com'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 // ---------------- Middleware -------------------
