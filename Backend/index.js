@@ -13,7 +13,14 @@ const seedRoutes = require('./routes/seedRoutes');
 const app = express();
 
 const cors = require('cors');
-app.use(cors());
+const corsOptions = {
+  origin: ['https://novyn-electronics-e-commerce-website-qogd14s83.vercel.app'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 
 // ✅ Middleware to parse JSON bodies
 app.use(express.json());
