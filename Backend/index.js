@@ -27,18 +27,19 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ---------------- API Routes --------------------
-app.use('/api/users', userRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/orders', orderRoutes);
-app.use('/api/categories', categoryRoutes);
-app.use('/api/payments', paymentRoutes);
-app.use('/api/seed', seedRoutes);
+// Remove '/api' prefix
+app.use('/users', userRoutes);
+app.use('/products', productRoutes);
+app.use('/orders', orderRoutes);
+app.use('/categories', categoryRoutes);
+app.use('/payments', paymentRoutes);
+app.use('/seed', seedRoutes);
 
 // ---------------- Serve Frontend ----------------
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Frontend routing (all non-API routes serve React)
-app.get(/^\/(?!api).*/, (req, res) => {
+app.get(/^\/(?!users|products|orders|categories|payments|seed).*/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
