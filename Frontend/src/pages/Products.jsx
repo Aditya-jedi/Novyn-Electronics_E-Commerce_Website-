@@ -29,8 +29,8 @@ function Products() {
         const limit = searchQuery.trim() ? 0 : 10; // 0 means no limit
         const categoryParam = category !== "all" ? `&category=${category}` : "";
         const [pRes, cRes] = await Promise.all([
-          fetch(`/products?page=${currentPage}&limit=${limit}${categoryParam}`),
-          fetch("/categories"),
+          fetch(`https://novyn-electronics-e-commerce-website.onrender.com/products?page=${currentPage}&limit=${limit}${categoryParam}`),
+          fetch("https://novyn-electronics-e-commerce-website.onrender.com/categories"),
         ]);
 
         if (!pRes.ok) throw new Error("Failed to fetch products");
