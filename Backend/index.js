@@ -16,9 +16,10 @@ const app = express();
 // ---------------------- CORS ----------------------
 app.use(cors({
   origin: ["https://novyn.netlify.app/","http://localhost:5173"], //
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  
   credentials: true
 }));
-
 // ---------------- Middleware -------------------
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
