@@ -18,7 +18,7 @@ function ProductDetail() {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/products/${id}`);
+        const response = await fetch(`/api/products/${id}`);
         if (!response.ok) {
           throw new Error(`Product not found (status: ${response.status})`);
         }

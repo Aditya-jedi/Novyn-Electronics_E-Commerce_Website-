@@ -14,8 +14,8 @@ router.get('/', getAllProducts);
 router.get('/:id', getProductById);
 
 // Admin-only routes
-router.post('/',protect,admin, createProduct);//add admin and protect middlewares after testing
-router.put('/:id',protect,admin, updateProduct);//add admin and protect middlewares after testing
-router.delete('/:id',protect,admin,  deleteProduct);//add admin and protect middlewares after testing
+router.post('/',protect,admin, createProduct);
+router.put('/:id',protect,admin, updateProduct);
+router.delete('/:id',protect,admin,  deleteProduct);
 
 module.exports = router;

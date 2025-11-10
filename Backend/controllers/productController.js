@@ -1,51 +1,46 @@
 const Product = require('../models/product');
 
-// Get all products (populate category name) with optional pagination
+// Get all products (populate category name) with pagination and optional category filtering
 const getAllProducts = async (req, res) => {
-  try {
-    const category = req.query.category;
-    let query = Product.find().populate('category', 'name');
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = (page - 1) * limit;
+  const category = req.query.category; // New: category filter from query params
 
-    // Apply category filter if provided
-    if (category && category !== 'all') {
-      query = query.where('category').equals(category);
-    }
+  let query = Product.find().populate('category', 'name');
 
-    // If limit=0 or not provided, fetch all products
-    if (!req.query.limit || parseInt(req.query.limit) <= 0) {
-      const products = await query;
-      return res.json({ products });
-    }
-
-    // Pagination
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit);
-    const skip = (page - 1) * limit;
-    query = query.skip(skip).limit(limit);
-
-    const products = await query;
-
-    // Count total products
-    let countQuery = Product.find();
-    if (category && category !== 'all') {
-      countQuery = countQuery.where('category').equals(category);
-    }
-    const total = await countQuery.countDocuments();
-    const totalPages = Math.ceil(total / limit);
-
-    res.json({
-      products,
-      pagination: {
-        currentPage: page,
-        totalPages,
-        totalProducts: total,
-        hasNext: page < totalPages,
-        hasPrev: page > 1
-      }
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
+  // Apply category filter if provided and not 'all'
+  if (category && category !== 'all') {
+    query = query.where('category').equals(category);
   }
+
+  // If limit is 0 or negative, return all products without pagination
+  if (limit <= 0) {
+    // Return all products
+  } else {
+    query = query.skip(skip).limit(limit);
+  }
+
+  const products = await query;
+
+  // Count documents with the same filter applied
+  let countQuery = Product.find();
+  if (category && category !== 'all') {
+    countQuery = countQuery.where('category').equals(category);
+  }
+  const total = await countQuery.countDocuments();
+  const totalPages = limit > 0 ? Math.ceil(total / limit) : 1;
+
+  res.json({
+    products,
+    pagination: {
+      currentPage: page,
+      totalPages,
+      totalProducts: total,
+      hasNext: limit > 0 && page < totalPages,
+      hasPrev: limit > 0 && page > 1
+    }
+  });
 };
 
 // Get single product by ID
@@ -63,35 +58,23 @@ const getProductById = async (req, res) => {
 
 // Create new product
 const createProduct = async (req, res) => {
-  try {
-    const { name, price, description, category, stock } = req.body;
-    const product = new Product({ name, price, description, category, stock });
-    const savedProduct = await product.save();
-    res.status(201).json(savedProduct);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
+  const { name, price, description, category, stock } = req.body;
+
+  const product = new Product({ name, price, description, category, stock });
+  const savedProduct = await product.save();
+  res.status(201).json(savedProduct);
 };
 
 // Update product
 const updateProduct = async (req, res) => {
-  try {
-    const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!product) return res.status(404).json({ message: 'Product not found' });
-    res.json(product);
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
+  const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  res.json(product);
 };
 
 // Delete product
 const deleteProduct = async (req, res) => {
-  try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.json({ message: 'Product deleted' });
-  } catch (error) {
-    res.status(500).json({ message: 'Server error', error: error.message });
-  }
+  await Product.findByIdAndDelete(req.params.id);
+  res.json({ message: 'Product deleted' });
 };
 
 module.exports = {

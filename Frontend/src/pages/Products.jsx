@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import api from "../utils/api"; // ✅ your centralized API config
 import FilterBar from "../components/FilterBar";
 import SortMenu from "../components/SortMenu";
 import SearchBar from "../components/SearchBar";
 import ProductGrid from "../components/ProductGrid";
+
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -16,7 +16,7 @@ function Products() {
   const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fetch products + categories
+  // Fetch products and categories on mount
   useEffect(() => {
     let cancelled = false;
 
@@ -24,93 +24,90 @@ function Products() {
       try {
         setLoading(true);
 
-        const limit = searchQuery.trim() ? 0 : 10; // 0 means no pagination limit
+        // If searching, fetch all products; otherwise use pagination
+        const limit = searchQuery.trim() ? 0 : 10; // 0 means no limit
         const categoryParam = category !== "all" ? `&category=${category}` : "";
-
-        // ✅ Using api (axios instance) for all backend requests
         const [pRes, cRes] = await Promise.all([
-          api.get(`/products?page=${currentPage}&limit=${limit}${categoryParam}`),
-          api.get("/categories"),
+          fetch(`/api/products?page=${currentPage}&limit=${limit}${categoryParam}`),
+          fetch("/api/categories"),
         ]);
 
-        if (!cancelled) {
-          const data = pRes.data;
-          const cats = cRes.data;
+        if (!pRes.ok) throw new Error("Failed to fetch products");
 
+        const data = await pRes.json();
+        const cats = cRes.ok ? await cRes.json() : [];
+
+        if (!cancelled) {
           setProducts(Array.isArray(data.products) ? data.products : []);
-          setPagination(data.pagination || null);
-          setCategories(Array.isArray(cats) ? cats : []);
+          setPagination(data.pagination);
+          const catArray = Array.isArray(cats) ? cats : cats ? [cats] : [];
+          // store category objects so we can filter by _id
+          setCategories(catArray);
         }
       } catch (err) {
-        console.error("❌ Error fetching products or categories:", err);
+        console.error("Failed to fetch products or categories", err);
+        // leave products empty so dev seed button is shown
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
+
     return () => {
       cancelled = true;
     };
   }, [currentPage, searchQuery, category]);
 
-  // ✅ Handle seeding (for dev)
   const handleSeed = async () => {
     try {
-      const res = await api.get("/seed");
-      console.log("✅ Seed response:", res.data);
-
-      // Re-fetch products after seeding
-      const p = await api.get("/products");
-      const list = p.data.products || p.data || [];
-      setProducts(Array.isArray(list) ? list : []);
+      const res = await fetch("/api/seed");
+      try {
+        const json = await res.json();
+        console.log("seed response", json);
+      } catch {
+        console.log("seed triggered");
+      }
+      // re-fetch products
+      const p = await fetch("/api/products");
+      if (p.ok) {
+        const list = await p.json();
+        setProducts(Array.isArray(list) ? list : []);
+      }
     } catch (err) {
-      console.error("❌ Seed failed:", err);
+      console.error("Seed failed", err);
     }
   };
 
-  // ✅ Filtering, searching, sorting
   useEffect(() => {
     let temp = [...products];
 
-    // Search filter
+    // Search filter (only when searching, since category is now server-side)
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
-      temp = temp.filter(
-        (p) =>
-          (p.name || "").toLowerCase().includes(query) ||
-          (p.category &&
-            typeof p.category === "object" &&
-            p.category.name &&
-            p.category.name.toLowerCase().includes(query))
+      temp = temp.filter((p) =>
+        (p.name || "").toLowerCase().includes(query) ||
+        (p.category && typeof p.category === 'object' && p.category.name
+          ? p.category.name.toLowerCase().includes(query)
+          : false)
       );
     }
 
-    // Category filter
-    if (category !== "all") {
-      temp = temp.filter((p) => {
-        const prodCatId = p.category && (p.category._id || p.category);
-        return String(prodCatId) === String(category);
-      });
-    }
+    // Category filter removed - now handled server-side
 
-    // Sort logic
+    // Sort
     if (sortOption === "price_low_high") {
       temp.sort((a, b) => (a.price || 0) - (b.price || 0));
     } else if (sortOption === "price_high_low") {
       temp.sort((a, b) => (b.price || 0) - (a.price || 0));
     } else if (sortOption === "name_a_z") {
-      temp.sort((a, b) =>
-        (a.name || "").toLowerCase().localeCompare((b.name || "").toLowerCase())
-      );
+      temp.sort((a, b) => (a.name || "").toLowerCase().localeCompare((b.name || "").toLowerCase()));
     } else if (sortOption === "name_z_a") {
-      temp.sort((a, b) =>
-        (b.name || "").toLowerCase().localeCompare((a.name || "").toLowerCase())
-      );
+      temp.sort((a, b) => (b.name || "").toLowerCase().localeCompare((a.name || "").toLowerCase()));
     }
 
     setFiltered(temp);
-  }, [products, category, sortOption, searchQuery]);
+  }, [products, sortOption, searchQuery]); // Removed category from dependencies
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
@@ -119,7 +116,6 @@ function Products() {
   return (
     <div className="products-page">
       <h1>All Products</h1>
-
       <div className="search-section">
         <SearchBar
           searchQuery={searchQuery}
@@ -127,57 +123,41 @@ function Products() {
           placeholder="Search products by name or category..."
         />
       </div>
-
       {searchQuery && (
-        <div
-          className="search-results-info"
-          style={{
-            textAlign: "center",
-            margin: "1rem 0",
-            color: "var(--text-muted)",
-          }}
-        >
-          <p>
-            Showing results for "{searchQuery}" ({filtered.length} products found)
-          </p>
+        <div className="search-results-info" style={{ textAlign: 'center', margin: '1rem 0', color: 'var(--text-muted)' }}>
+          <p>Showing results for "{searchQuery}" ({filtered.length} products found)</p>
         </div>
       )}
-
       <div className="top-bar">
         <FilterBar
           categories={categories}
           selectedCategory={category}
           onCategoryChange={(newCategory) => {
             setCategory(newCategory);
-            setCurrentPage(1);
+            setCurrentPage(1); // Reset to page 1 when category changes
           }}
         />
         <SortMenu sortOption={sortOption} onSortChange={setSortOption} />
       </div>
 
-      {loading && <div className="spinner">Loading...</div>}
+      {loading && <div className="spinner"></div>}
 
       <ProductGrid products={filtered} />
 
       {pagination && !searchQuery.trim() && (
-        <div
-          className="pagination"
-          style={{ marginTop: "2rem", textAlign: "center" }}
-        >
+        <div className="pagination" style={{ marginTop: '2rem', textAlign: 'center' }}>
           <button
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={!pagination.hasPrev}
-            style={{ margin: "0 0.5rem" }}
+            style={{ margin: '0 0.5rem' }}
           >
             Previous
           </button>
-          <span>
-            Page {pagination.currentPage} of {pagination.totalPages}
-          </span>
+          <span>Page {pagination.currentPage} of {pagination.totalPages}</span>
           <button
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={!pagination.hasNext}
-            style={{ margin: "0 0.5rem" }}
+            style={{ margin: '0 0.5rem' }}
           >
             Next
           </button>

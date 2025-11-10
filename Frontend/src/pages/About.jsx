@@ -6,14 +6,14 @@ function About() {
     {
       name: "Aditya Pratap Singh",
       github: "https://github.com/Aditya-jedi",
-      linkedin: "https://linkedin.com/in/your-linkedin-id",
+      linkedin: "https://www.linkedin.com/in/aditya-pratap-singh-b4b850327/",
       description:
         "A passionate developer with interests in front-end technologies, UI/UX design, and creative problem-solving.",
     },
     {
       name: "Ayush Sen",
       github: "https://github.com/Ayushsen83",
-      linkedin: "https://linkedin.com/in/your-linkedin-id",
+      linkedin: "https://www.linkedin.com/in/ayush-sen-b733aa324/",
       description:
         "An enthusiastic learner focused on web development, performance optimization, and modern software design.",
     },

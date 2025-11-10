@@ -59,7 +59,7 @@ function Checkout() {
       const ourOrder = createOrderData.order;
 
       // Create Razorpay order on server and pass our order id as receipt
-      const payRes = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/payments/create-order`, {
+      const payRes = await fetch('/api/payments/create-order', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ amount: total, receipt: ourOrder._id }),
@@ -82,7 +82,7 @@ function Checkout() {
             orderId: ourOrder._id,
           };
 
-          const verifyRes = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/payments/verify-payment`, {
+          const verifyRes = await fetch('/api/payments/verify-payment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
@@ -92,7 +92,7 @@ function Checkout() {
             toast.success('Payment successful and verified.');
             // mark order as paid on our side (redundant if backend handled it)
             try {
-              await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/orders/${ourOrder._id}/pay`, { method: 'PUT' });
+              await fetch(`/api/orders/${ourOrder._id}/pay`, { method: 'PUT' });
             } catch (err2) {
               console.error('Failed to call order pay endpoint', err2);
             }

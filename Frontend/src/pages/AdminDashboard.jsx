@@ -27,9 +27,9 @@ function AdminDashboard() {
     setLoading(true);
     try {
       const [productsRes, ordersRes, categoriesRes] = await Promise.all([
-        authFetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/products?limit=-1`),
-        authFetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/orders`),
-        fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/categories`)
+        authFetch("/api/products?limit=-1"),
+        authFetch("/api/orders"),
+        fetch("/api/categories")
       ]);
       if (productsRes.ok) {
         const productsData = await productsRes.json();
@@ -53,7 +53,7 @@ function AdminDashboard() {
   const handleCreateProduct = async (e) => {
     e.preventDefault();
     try {
-      const res = await authFetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/products`, {
+      const res = await authFetch("/api/products", {
         method: "POST",
         body: JSON.stringify(newProduct)
       });
@@ -74,7 +74,7 @@ function AdminDashboard() {
   const handleUpdateProduct = async (e) => {
     e.preventDefault();
     try {
-      const res = await authFetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/products/${editingProduct._id}`, {
+      const res = await authFetch(`/api/products/${editingProduct._id}`, {
         method: "PUT",
         body: JSON.stringify(editingProduct)
       });
@@ -95,7 +95,7 @@ function AdminDashboard() {
   const handleDeleteProduct = async (id) => {
     if (!confirm("Are you sure you want to delete this product?")) return;
     try {
-      const res = await authFetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/products/${id}`, { method: "DELETE" });
+      const res = await authFetch(`/api/products/${id}`, { method: "DELETE" });
       if (res.ok) {
         setProducts(products.filter(p => p._id !== id));
         toast.success("Product deleted");
@@ -110,7 +110,7 @@ function AdminDashboard() {
 
   const handleUpdateOrderStatus = async (id) => {
     try {
-      const res = await authFetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/orders/${id}/deliver`, { method: "PUT" });
+      const res = await authFetch(`/api/orders/${id}/deliver`, { method: "PUT" });
       if (res.ok) {
         const updatedOrder = await res.json();
         setOrders(orders.map(o => o._id === id ? updatedOrder : o));

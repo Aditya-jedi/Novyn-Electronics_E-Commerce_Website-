@@ -1,4 +1,3 @@
-// src/context/AuthContext.jsx
 import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "../utils/toast";
@@ -61,17 +60,26 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, redirectTo = null) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/users/login`, {
+      const res = await fetch(`/api/users/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
 
-      const data = await res.json();
       if (!res.ok) {
-        toast.error(data.message || data.error || "Login failed");
+        const errorText = await res.text();
+        let errorMessage = "Login failed";
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+          errorMessage = errorText || errorMessage;
+        }
+        toast.error(errorMessage);
         return false;
       }
+
+      const data = await res.json();
 
       // sanitize returned user
       if (data.user && data.user.password) delete data.user.password;
@@ -93,17 +101,26 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (name, email, password, redirectTo = null) => {
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:5000"}/users/register`, {
+      const res = await fetch(`/api/users/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
       });
 
-      const data = await res.json();
       if (!res.ok) {
-        toast.error(data.message || data.error || "Registration failed");
+        const errorText = await res.text();
+        let errorMessage = "Registration failed";
+        try {
+          const errorData = JSON.parse(errorText);
+          errorMessage = errorData.message || errorData.error || errorMessage;
+        } catch {
+          errorMessage = errorText || errorMessage;
+        }
+        toast.error(errorMessage);
         return false;
       }
+
+      const data = await res.json();
 
       if (data.user && data.user.password) delete data.user.password;
       const usr = Object.assign({}, data.user, { role: data.user?.isAdmin ? "admin" : "user" });

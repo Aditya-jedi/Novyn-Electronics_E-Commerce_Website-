@@ -1,9 +1,8 @@
 require('dotenv').config();
+
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 
-// Import routes
 const userRoutes = require('./routes/userRoutes');
 const productRoutes = require('./routes/productRoutes');
 const orderRoutes = require('./routes/orderRoutes');
@@ -13,39 +12,40 @@ const seedRoutes = require('./routes/seedRoutes');
 
 const app = express();
 
-// ---------------------- CORS ----------------------
-app.use(cors({
-  origin: ["https://novyn.netlify.app","http://localhost:5173"], //
-  methods: ["GET", "POST", "PUT", "DELETE"],
+const cors = require('cors');
+app.use(cors());
 
-  credentials: true
-}));
-// ---------------- Middleware -------------------
+// ✅ Middleware to parse JSON bodies
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ---------------- API Routes --------------------
-app.use('/users', userRoutes);
-app.use('/products', productRoutes);
-app.use('/orders', orderRoutes);
-app.use('/categories', categoryRoutes);
-app.use('/payments', paymentRoutes);
-app.use('/seed', seedRoutes);
+// ✅ Routes
+app.use('/api/users', userRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+app.use('/api/categories', categoryRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/seed', seedRoutes);
 
-// ---------------- MongoDB & Start Server -------
+// Test route
+app.get('/', (req, res) => {
+  res.send('API is running...');
+});
+
 const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
+const mongo_URI = process.env.MONGO_URI;
 
+// ✅ Connect to MongoDB and start server
 const connectDB = async () => {
   try {
-    await mongoose.connect(MONGO_URI);
-    console.log('✅ MongoDB connected');
+    await mongoose.connect(mongo_URI);
+    console.log("✅ MongoDB connected");
 
     app.listen(PORT, () => {
-      console.log(`🚀 Backend running on port ${PORT}`);
+      console.log(`🚀 Server running on port ${PORT}`);
     });
   } catch (error) {
-    console.error('❌ Connection error:', error.message);
+    console.error("❌ Connection error:", error.message);
     process.exit(1);
   }
 };
