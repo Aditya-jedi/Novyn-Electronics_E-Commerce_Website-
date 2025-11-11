@@ -1,4 +1,5 @@
 import ProductCard from "./ProductCard";
+import "./ProductGrid.css";
 
 function ProductGrid({ products }) {
   const CardAvailable = typeof ProductCard === 'function' || typeof ProductCard === 'object';
@@ -13,10 +14,13 @@ function ProductGrid({ products }) {
     );
   }
 
+  // Limit to 10 products per page for better performance and UX
+  const displayedProducts = products.slice(0, 10);
+
   return (
     <div className="product-grid">
-      {products.length > 0 ? (
-        products.map((p) => {
+      {displayedProducts.length > 0 ? (
+        displayedProducts.map((p) => {
           const key = p._id || p.id || `${p.name}-${Math.random()}`;
           try {
             return <ProductCard key={key} product={p} />;

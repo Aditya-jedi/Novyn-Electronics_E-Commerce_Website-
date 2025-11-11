@@ -3,13 +3,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--glass-bg);
+  background: var(--nav-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   color: var(--text-color);
   padding: var(--space-lg) var(--space-xl);
-  border-bottom: 1px solid var(--glass-border);
-  box-shadow: var(--shadow-sm);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -18,7 +18,7 @@
 
 .logo-text {
   text-decoration: none;
-  color: var(--primary-accent);
+  /* color: var(--primary-accent); */
   font-size: 1.75rem;
   font-weight: 800;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -26,26 +26,60 @@
   align-items: center;
   gap: 0.75rem;
   letter-spacing: -0.035em;
-  text-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  transition: all var(--transition-medium);
+  /* text-shadow: 0 4px 8px rgba(0,0,0,0.15); */
+  /* transition: all var(--transition-medium); */
   cursor: pointer;
+  position: relative;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  /* background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05)); */
+  /* backdrop-filter: blur(10px); */
+  /* -webkit-backdrop-filter: blur(10px); */
+  /* border: 1px solid rgba(255,255,255,0.1); */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-.logo-text:hover {
-  transform: translateY(-1px);
-}
+/* .logo-text:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(255,255,255,0.08));
+} */
 
-.logo-icon {
+/* .logo-text::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+  border-radius: 0.5rem;
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+  z-index: -1;
+} */
+
+/* .logo-text:hover::before {
+  opacity: 0.1;
+} */
+
+/* .logo-icon {
   font-size: 2rem;
   filter: drop-shadow(0 3px 6px rgba(0,0,0,0.2));
   background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: logo-pulse 2s ease-in-out infinite;
-}
+  /* animation: logo-pulse 2s ease-in-out infinite; */
+  /* transition: all var(--transition-medium); */
+/* } */ 
 
-.logo-brand {
+/* .logo-text:hover .logo-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3));
+} */
+
+/* .logo-brand {
   font-weight: 900;
   letter-spacing: -0.04em;
   background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
@@ -53,12 +87,20 @@
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: none;
-}
+  /* transition: all var(--transition-medium); */
+/* } */
 
-@keyframes logo-pulse {
+/* .logo-text:hover .logo-brand {
+  background: linear-gradient(135deg, var(--accent-hover), var(--primary-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+} */
+
+/* @keyframes logo-pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.05); }
-}
+} */
 
 .nav-links {
   list-style: none;
@@ -75,10 +117,29 @@
   border-radius: var(--radius-md);
 }
 
-.nav-links li a:hover {
+.nav-links li a:hover,
+.nav-links li a.active {
   color: var(--primary-accent);
-  transform: translateY(-1px);
-  background: rgba(124, 58, 237, 0.05);
+  transform: translateY(-2px);
+  background: var(--nav-bg-hover, rgba(255,255,255,0.1));
+  font-weight: 600;
+  box-shadow: var(--shadow-md);
+}
+
+.nav-links li a.active {
+  position: relative;
+}
+
+.nav-links li a.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 2px;
+  background: var(--primary-accent);
+  border-radius: 1px;
 }
 
 /* Dropdown styles */
@@ -102,7 +163,7 @@
 
 .dropdown-toggle:hover {
   color: var(--primary-accent);
-  background: rgba(124, 58, 237, 0.05);
+  background: var(--nav-bg-hover, rgba(255,255,255,0.1));
 }
 
 .dropdown-arrow {
@@ -118,10 +179,10 @@
   position: absolute;
   top: 100%;
   left: 0;
-  background: var(--glass-bg);
+  background: var(--nav-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--glass-border);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   list-style: none;
@@ -153,7 +214,7 @@
 
 .dropdown-menu li a:hover,
 .dropdown-menu li button:hover {
-  background: rgba(124, 58, 237, 0.05);
+  background: var(--nav-bg-hover, rgba(255,255,255,0.1));
   color: var(--primary-accent);
 }
 
@@ -185,7 +246,7 @@
 }
 
 .theme-toggle-nav .theme-toggle:hover {
-  background: var(--nav-bg-hover, rgba(255,255,255,0.1));
+  background: var(--nav-bg-hover);
   transform: none;
 }
 
@@ -208,7 +269,7 @@
 }
 
 .hamburger:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--nav-bg-hover, rgba(255,255,255,0.1));
 }
 
 .hamburger:focus {
@@ -238,10 +299,10 @@
   right: 0;
   height: 100vh;
   width: 260px;
-  background: var(--glass-bg);
+  background: var(--nav-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border-left: 1px solid var(--glass-border);
+  border-left: 1px solid var(--border-color);
   flex-direction: column;
   padding: 3.5rem 1rem;
   gap: 1rem;
@@ -306,7 +367,7 @@
   }
 
   .nav-links.open li button:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--nav-bg-hover, rgba(255,255,255,0.1));
     color: var(--primary-accent);
   }
 
@@ -315,7 +376,7 @@
     position: static;
     box-shadow: none;
     border: none;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--nav-bg-hover, rgba(255, 255, 255, 0.1));
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     animation: none;
@@ -327,4 +388,40 @@
     padding: var(--space-sm) var(--space-lg);
     font-size: 1rem;
   }
+}
+
+/* Dark Mode Overrides - Black & Gold */
+/* html[data-theme='dark'] .logo-text {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 215, 0, 0.05));
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.1);
+} */
+
+/* html[data-theme='dark'] .logo-text:hover {
+  background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 215, 0, 0.08));
+  box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+  border-color: rgba(255, 215, 0, 0.3);
+} */
+
+html[data-theme='dark'] .logo-text::before {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+}
+
+html[data-theme='dark'] .logo-text:hover::before {
+  opacity: 0.15;
+}
+
+html[data-theme='dark'] .logo-icon,
+html[data-theme='dark'] .logo-brand {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html[data-theme='dark'] .logo-text:hover .logo-brand {
+  background: linear-gradient(135deg, #ffed4e, #ffd700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

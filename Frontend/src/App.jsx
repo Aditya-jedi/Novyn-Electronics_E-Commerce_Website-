@@ -10,6 +10,7 @@ import Home from "./pages/Home";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import AdminDashboard from "./pages/AdminDashboard";
@@ -84,6 +85,7 @@ function App() {
                 <Route path="/orders" element={<ProtectedRoute><Orders /></ProtectedRoute>} />
                 <Route path="/checkout" element={<ProtectedRoute><Checkout /></ProtectedRoute>} />
                 <Route path="/about" element={<ProtectedRoute><About /></ProtectedRoute>} />
+                <Route path="/contact" element={<ProtectedRoute><Contact /></ProtectedRoute>} />
 
                 {/* Protected admin route */}
                 <Route path="/admin" element={<ProtectedRoute requiredRole="admin"><AdminDashboard /></ProtectedRoute>} />

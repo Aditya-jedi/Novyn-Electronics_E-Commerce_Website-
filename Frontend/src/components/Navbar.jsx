@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Navbar.css";
-import { Link } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import ThemeToggle from "./ThemeToggle";
 
@@ -36,38 +36,38 @@ const Navbar = () => {
 
         <ul className={`nav-links ${open ? "open" : ""}`}>
           <li>
-            <Link to="/" onClick={close}>
+            <NavLink to="/" onClick={close} className={({ isActive }) => isActive ? "active" : ""}>
               Home
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to="/products" onClick={close}>
+            <NavLink to="/products" onClick={close} className={({ isActive }) => isActive ? "active" : ""}>
               Products
-            </Link>
+            </NavLink>
           </li>
           {user ? (
             <>
               <li>
-                <Link to="/cart" onClick={close}>
+                <NavLink to="/cart" onClick={close} className={({ isActive }) => isActive ? "active" : ""}>
                   Cart
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="/orders" onClick={close}>
+                <NavLink to="/orders" onClick={close} className={({ isActive }) => isActive ? "active" : ""}>
                   Orders
-                </Link>
+                </NavLink>
               </li>
               <li>
-                <Link to="/about" onClick={close}>
-                  About
-                </Link>
+                <NavLink to="/contact" onClick={close} className={({ isActive }) => isActive ? "active" : ""}>
+                  Contact
+                </NavLink>
               </li>
 
               {user.role === "admin" && (
                 <li>
-                  <Link to="/admin" onClick={close}>
+                  <NavLink to="/admin" onClick={close} className={({ isActive }) => isActive ? "active" : ""}>
                     Admin
-                  </Link>
+                  </NavLink>
                 </li>
               )}
 
@@ -77,12 +77,12 @@ const Navbar = () => {
             </>
           ) : (
             <li className="auth-link">
-              <Link to="/login" onClick={close} style={{ marginRight: 8 }}>
+              <NavLink to="/login" onClick={close} className={({ isActive }) => isActive ? "active" : ""} style={{ marginRight: 8 }}>
                 Login
-              </Link>
-              <Link to="/signup" onClick={close}>
+              </NavLink>
+              <NavLink to="/signup" onClick={close} className={({ isActive }) => isActive ? "active" : ""}>
                 Sign up
-              </Link>
+              </NavLink>
             </li>
           )}
 

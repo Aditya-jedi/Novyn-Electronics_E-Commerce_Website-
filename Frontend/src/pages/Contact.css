@@ -6,9 +6,9 @@
 }
 
 /* Dark Mode Overrides - Black & Gold */
-html[data-theme='dark'] .about {
+/* html[data-theme='dark'] .about {
   background: linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #000000 100%);
-}
+} */
 
 /* Premium Hero Section */
 .about-hero {
@@ -16,7 +16,7 @@ html[data-theme='dark'] .about {
   margin-bottom: var(--space-3xl);
 }
 
-.about-title {
+/* .about-title {
   font-size: clamp(2.5rem, 5vw, 4rem);
   font-weight: 700;
   line-height: 1.1;
@@ -26,16 +26,16 @@ html[data-theme='dark'] .about {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-}
+} */
 
 /* Dark Mode Title Visibility */
-html[data-theme='dark'] .about-title {
+/* html[data-theme='dark'] .about-title {
   background: linear-gradient(135deg, #ffd700, #ffed4e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
-}
+} */
 
 .about-intro {
   font-size: 1.125rem;

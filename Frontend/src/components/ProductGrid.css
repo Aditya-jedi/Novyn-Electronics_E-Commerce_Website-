@@ -1,0 +1,122 @@
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+  margin: var(--space-xl) 0;
+  padding: 0 var(--space-md);
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-xl);
+    padding: 0 var(--space-lg);
+  }
+}
+
+@media (min-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1280px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1536px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Ensure uniform card heights and layout */
+.product-grid .product-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all var(--transition-medium);
+}
+
+.product-grid .card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+}
+
+.product-grid .card-meta {
+  margin-top: auto;
+  margin-bottom: var(--space-md);
+}
+
+.product-grid .card-actions {
+  margin-top: var(--space-md);
+  display: flex;
+  gap: var(--space-sm);
+}
+
+/* Enhanced hover effects for grid items */
+.product-grid .product-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-2xl), 0 0 30px rgba(0, 123, 255, 0.15);
+  z-index: 10;
+}
+
+/* Loading state */
+.product-grid .product-card.skeleton {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    padding: 0 var(--space-sm);
+  }
+
+  .product-grid .card-body {
+    padding: var(--space-sm);
+  }
+
+  .product-grid .card-actions {
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .product-grid .btn-primary,
+  .product-grid .btn-ghost {
+    font-size: 0.85rem;
+    padding: var(--space-xs) var(--space-sm);
+  }
+}
+
+@media (max-width: 640px) {
+  .product-grid {
+    gap: var(--space-md);
+  }
+}
+
+/* Ensure proper spacing on mobile */
+@media (max-width: 768px) {
+  .product-grid {
+    margin: var(--space-lg) 0;
+  }
+}

@@ -4,8 +4,8 @@
   top: var(--space-lg);
   right: var(--space-lg);
   z-index: 9999;
-  width: 48px;
-  height: 48px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   display: inline-flex;
   align-items: center;
@@ -16,7 +16,7 @@
   color: var(--text-color);
   border: 1px solid var(--glass-border);
   cursor: pointer;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--shadow-xl), 0 0 20px rgba(0, 123, 255, 0.2);
   transition: all var(--transition-medium);
   font-size: 1.25rem;
   position: relative;

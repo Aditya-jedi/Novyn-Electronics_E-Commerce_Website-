@@ -3,6 +3,7 @@ import FilterBar from "../components/FilterBar";
 import SortMenu from "../components/SortMenu";
 import SearchBar from "../components/SearchBar";
 import ProductGrid from "../components/ProductGrid";
+import "./Products.css";
 
 
 function Products() {
@@ -137,7 +138,9 @@ function Products() {
             setCurrentPage(1); // Reset to page 1 when category changes
           }}
         />
-        <SortMenu sortOption={sortOption} onSortChange={setSortOption} />
+        <div className="sort-container">
+          <SortMenu sortOption={sortOption} onSortChange={setSortOption} />
+        </div>
       </div>
 
       {loading && <div className="spinner"></div>}

@@ -11,6 +11,9 @@ function ProductCard({ product, addToCart: addToCartProp }) {
   const navigate = useNavigate();
   const addToCart = addToCartProp || (cartCtx && cartCtx.addToCart);
 
+  // Check if product is in cart
+  const isInCart = cartCtx?.cartItems?.some((item) => (item._id || item.id) === (product._id || product.id));
+
   const handleAdd = (e) => {
     e.preventDefault();
     if (!user) {
@@ -61,7 +64,13 @@ function ProductCard({ product, addToCart: addToCartProp }) {
         </div>
 
         <div className="card-actions">
-          <button className="btn-primary" onClick={handleAdd} disabled={!inStock}>{inStock ? 'Add to cart' : 'Out of stock'}</button>
+          {isInCart ? (
+            <Link to="/cart" className="btn-cart-view">View in Cart</Link>
+          ) : (
+            <button className="btn-primary" onClick={handleAdd} disabled={!inStock}>
+              {inStock ? 'Add to cart' : 'Out of stock'}
+            </button>
+          )}
           <Link to={`/products/${product._id || product.id || ''}`} className="btn-ghost">View</Link>
         </div>
       </div>

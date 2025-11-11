@@ -8,12 +8,14 @@
   position: relative;
   display: flex;
   align-items: center;
-  background: var(--bg-secondary);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 2px solid var(--border-color);
   border-radius: 50px;
   padding: 0.75rem 1rem;
   transition: all 0.3s ease;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-md);
 }
 
 .search-input-container:focus-within {

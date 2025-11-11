@@ -1,11 +1,12 @@
 .test-payment-instructions {
   margin-top: 16px;
-  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+  background: linear-gradient(135deg, #1a1a1a 0%, #333333 50%, #1a1a1a 100%);
   padding: 20px;
   border-radius: 12px;
-  border: 2px solid #f39c12;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 2px solid #ffd700;
+  box-shadow: 0 4px 6px rgba(255, 215, 0, 0.1);
   position: relative;
+  color: #ffffff;
 }
 
 .test-payment-instructions::before {
@@ -13,8 +14,8 @@
   position: absolute;
   top: -10px;
   left: 20px;
-  background: #f39c12;
-  color: white;
+  background: #ffd700;
+  color: #000000;
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -26,7 +27,7 @@
 
 .test-payment-instructions strong {
   display: block;
-  color: #d68910;
+  color: #ffd700;
   font-size: 18px;
   margin-bottom: 12px;
   font-weight: 600;
@@ -34,7 +35,7 @@
 
 .test-payment-instructions p {
   margin: 8px 0 12px 0;
-  color: #6c5ce7;
+  color: rgba(255, 255, 255, 0.8);
   line-height: 1.5;
 }
 
@@ -45,24 +46,24 @@
 
 .test-payment-instructions li {
   margin-bottom: 6px;
-  color: #2d3436;
+  color: #ffffff;
   font-weight: 500;
 }
 
 .test-payment-instructions code {
-  background: #ffeaa7;
+  background: rgba(255, 215, 0, 0.1);
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Courier New', monospace;
-  color: #d63031;
+  color: #ffd700;
   font-weight: bold;
 }
 
 .test-payment-instructions .note {
   margin: 0;
   font-size: 13px;
-  color: #636e72;
+  color: rgba(255, 255, 255, 0.6);
   font-style: italic;
-  border-top: 1px solid #f39c12;
+  border-top: 1px solid #ffd700;
   padding-top: 8px;
 }
