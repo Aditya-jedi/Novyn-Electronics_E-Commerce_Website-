@@ -144,6 +144,178 @@ html[data-theme='dark'] .info-card p {
   color: rgba(255, 255, 255, 0.8);
 }
 
+/* Team Section */
+.team-section {
+  margin-top: var(--space-3xl);
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  margin-bottom: var(--space-2xl);
+  color: var(--text-color);
+  background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Dark Mode Section Title */
+html[data-theme='dark'] .section-title {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 4px 8px rgba(255, 215, 0, 0.3);
+}
+
+/* Creators Grid */
+.creators-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+/* Creator Card */
+.creator-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: var(--space-2xl);
+  border-radius: var(--radius-xl);
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  transition: all var(--transition-medium);
+  border: 1px solid var(--glass-border);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dark Mode Creator Cards */
+html[data-theme='dark'] .creator-card {
+  background: rgba(26, 26, 26, 0.9);
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(255, 215, 0, 0.1);
+}
+
+.creator-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--card-gradient);
+  opacity: 0;
+  transition: opacity var(--transition-medium);
+}
+
+.creator-card:hover::before {
+  opacity: 1;
+}
+
+.creator-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: var(--shadow-xl);
+  border-color: var(--primary-accent);
+}
+
+/* Dark Mode Hover Effects */
+html[data-theme='dark'] .creator-card:hover {
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 12px 40px rgba(255, 215, 0, 0.2);
+}
+
+html[data-theme='dark'] .creator-card:hover::before {
+  background: linear-gradient(90deg, #ffd700, #ffed4e);
+}
+
+/* Creator Avatar */
+.creator-avatar {
+  margin-bottom: var(--space-lg);
+}
+
+.creator-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--card-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  margin: 0 auto;
+  box-shadow: var(--shadow-md);
+}
+
+/* Creator Name */
+.creator-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+  color: var(--text-color);
+}
+
+/* Creator Description */
+.creator-description {
+  color: var(--secondary-text);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  margin-bottom: var(--space-lg);
+}
+
+/* Dark Mode Description */
+html[data-theme='dark'] .creator-description {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Creator Links */
+.creator-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-lg);
+}
+
+.creator-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--primary-accent);
+  color: white;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
+}
+
+.creator-link:hover {
+  background: var(--secondary-accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Dark Mode Links */
+html[data-theme='dark'] .creator-link {
+  background: #ffd700;
+  color: #000;
+}
+
+html[data-theme='dark'] .creator-link:hover {
+  background: #ffed4e;
+}
+
+/* Link Icon */
+.link-icon {
+  font-size: 1rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .contact {
@@ -174,5 +346,45 @@ html[data-theme='dark'] .info-card p {
 
   .info-icon {
     font-size: 2.5rem;
+  }
+
+  .team-section {
+    margin-top: var(--space-2xl);
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+
+  .creators-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  .creator-card {
+    padding: var(--space-xl);
+  }
+
+  .creator-icon {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+
+  .creator-name {
+    font-size: 1.25rem;
+  }
+
+  .creator-description {
+    font-size: 0.8rem;
+  }
+
+  .creator-links {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .creator-link {
+    justify-content: center;
   }
 }
